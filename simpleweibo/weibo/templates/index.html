@@ -1,0 +1,31 @@
+{% extends "index-base.html" %}
+
+
+{% block feed_html %}
+
+{% for feed in feed_list %}
+<article class="well">
+  <p><span class="label label-success">Retweeted</span>{{ feed.text }}</p>
+  <p>{{ feed.retweeted_status.text }}</p>
+</article>
+{% endfor %}
+
+{% endblock %}
+
+
+{% block feeds_html %}
+<ul class="thumbnails">
+{% for feed in feed_list %}
+<li class="span4">
+  <div class="thumbnail">
+    <span class="label label-success">Retweeted</span>
+    <span class="label label-info">Original</span>
+    <span class="label label-default">Comment</span>
+    <hr/>
+    <p>{{ feed.text }}</p>
+    <p>{{ feed.retweeted_status.text }}</p>
+  </div>
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,10 +1,10 @@
-{% extends "index-base.html" %}
+{% extends "index-list-base.html" %}
 
 {% block feeds_html %}
 
 {% for feed in feed_list %}
-<li class="span4">
-  <div class="thumbnail feed-entry">
+<li class="span12">
+  <div class="thumbnail feed-entry-wide">
 
     <div class="feed-entry-content">
       <p>{{ feed.text }}</p>

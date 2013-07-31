@@ -14,6 +14,9 @@ def weibo_index(request):
 def weibo_index_list(request):
     return render_to_response('index-list.html', {'feed_list': get_all_myfeed(None, source='json')})
 
+def weibo_user_timeline(request):
+    pass
+
 #=====================================================================================
 
 class ProfileList(ListView):

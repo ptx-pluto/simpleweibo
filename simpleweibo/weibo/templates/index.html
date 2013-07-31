@@ -3,26 +3,24 @@
 {% block feeds_html %}
 
 {% for feed in feed_list %}
-<li class="span4">
-  <div class="thumbnail feed-entry">
+<div class="feed-entry grid-tile">
 
-    <div class="feed-entry-content">
-      <p>{{ feed.text }}</p>
-      <p>{{ feed.retweeted_status.text }}</p>
-    </div>
+  <p>{{ feed.text }}</p>
 
-    <hr/>
+  <hr/>
 
-    <div class="span4 feed-entry-profile">
-      <img src="{{ feed.user.avatar_large }}" class="img-polaroid pull-left" style="width:50px;height:50px;">
-      <h4>{{ feed.user.name }}</h4>
-      <span class="label label-success">Retweeted</span>
-      <span class="label label-info">Original</span>
-      <span class="label label-default">Comment</span>
-    </div>
-
-  </div>
-</li>
+  <p>{{ feed.retweeted_status.text }}</p>
+  
+  <hr/>
+  
+  <p class="feed-entry-profile">
+    <h4>{{ feed.user.name }}</h4>
+    <span class="label label-success">Retweeted</span>
+    <span class="label label-info">Original</span>
+    <span class="label label-default">Comment</span>
+  </p>
+  
+</div>
 {% endfor %}
 
 {% endblock %}

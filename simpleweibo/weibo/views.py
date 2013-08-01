@@ -14,6 +14,24 @@ def weibo_home(request):
 def weibo_index(request):
     return render_to_response('index.html', {'feed_list': get_all_myfeed(None, source='json')})
 
+
+#=====================================================================================
+# Weibo Search Views
+#=====================================================================================
+
+def weibo_search_allfeed(request):
+    return render_to_response('search-allfeed.html', {'result_list': get_all_myfeed(None, source='json')})
+
+def weibo_search_mytimeline(request):
+    return render_to_response('search-mytimeline.html', {'result_list': get_all_myfeed(None, source='json')})
+
+def weibo_search_hometimeline(request):
+    return render_to_response('search-hometimeline.html', {'result_list': get_all_myfeed(None, source='json')})
+
+def weibo_search_archive(request):
+    return render_to_response('search-archive.html', {'result_list': get_all_myfeed(None, source='json')})
+
+
 #=====================================================================================
 
 class ProfileList(ListView):

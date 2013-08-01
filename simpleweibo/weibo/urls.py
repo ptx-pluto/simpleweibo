@@ -4,9 +4,8 @@ from simpleweibo.weibo.models import Profile
 from simpleweibo.weibo.views import ProfileList, FollowerList, FollowingList, FriendList
 
 urlpatterns = patterns('simpleweibo.weibo.views',
+    url(r'^home$', 'weibo_home'),
     url(r'^index$', 'weibo_index'),
-    url(r'^index-list$', 'weibo_index_list'),
-
 
     url(r'^ajax/friend$', FriendList.as_view()),
     url(r'^ajax/follower$', FollowerList.as_view()),

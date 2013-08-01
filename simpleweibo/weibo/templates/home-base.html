@@ -22,9 +22,9 @@
 	      </a>
 
 	      <ul class="nav">
-		<li class="active"><a href="#"><i class="icon-home"></i> Home</a></li>
-		<li><a href="#"><i class="icon-comment"></i> Blog</a></li>
-		<li><a href="#"><i class="icon-info-sign"></i> Projects</a></li>
+		<li><a href="index"><i class="icon-home"></i> Index</a></li>
+		<li class="active"><a href="#"><i class="icon-comment"></i> Home</a></li>
+		<li><a href="#"><i class="icon-info-sign"></i> Timeline</a></li>
 		<li class="dropdown">
 		  <a href="#" calss="dropdown-toggle" data-toggle="dropdown">
 		    <i class="icon-user"></i> Connect
@@ -49,17 +49,38 @@
 	</div>
       </header>
 
-      <div class="row" id="main-content" style="padding-top:55px">
-	<ul class="thumbnails span12">
+      <div class="row" id="main-content">
+	
+	<div id="sidebar" class="span3">
 
+	  <div class="well" style="padding-right:0px;padding-left:0px;min-height:400px">
+	    <ul class="nav nav-list">
+	      <li class="nav-header">Feed</li>
+	      <li class="active"><a href="#">Timeline</a></li>
+	      <li><a href="#">Archive</a></li>
+
+	      <li class="nav-header">Profiles</li>
+	      <li><a href="#">Friends</a></li>
+	      <li><a href="#">Folowing</a></li>
+	      <li><a href="#">Follower</a></li>
+	    </ul>
+	  </div>
+
+	</div>
+
+	<div class="span9" id="grid-container">
+	  
 	  {% block feeds_html %}Here should be some status{% endblock %}
 
-	</ul>
+	</div>
+
+
       </div>
     </div>
 
     <script src="http://static.localhost/lib/jquery-1.10.2.js"></script>
     <script src="http://static.localhost/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://static.localhost/lib/jquery.wookmark.min.js"></script>
     <script src="http://static.localhost/simpleweibo/main.js"></script>
 
   </body>

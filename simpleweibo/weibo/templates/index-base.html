@@ -22,9 +22,9 @@
 	      </a>
 
 	      <ul class="nav">
-		<li class="active"><a href="#"><i class="icon-home"></i> Home</a></li>
-		<li><a href="#"><i class="icon-comment"></i> Timeline</a></li>
-		<li><a href="#"><i class="icon-info-sign"></i> Profiles</a></li>
+		<li class="active"><a href="#"><i class="icon-home"></i> Index</a></li>
+		<li><a href="home"><i class="icon-comment"></i> Home</a></li>
+		<li><a href="#"><i class="icon-info-sign"></i> Timeline</a></li>
 		<li class="dropdown">
 		  <a href="#" calss="dropdown-toggle" data-toggle="dropdown">
 		    <i class="icon-user"></i> Connect
@@ -49,43 +49,20 @@
 	</div>
       </header>
 
+
+      <div class="row" id="welcome">
+	<div class="hero-unit">
+	  <h1>Welcome To</h1>
+	</div>
+      </div>
+
       <div class="row" id="main-content">
 	
-	<div id="sidebar" class="span3">
-
-	  <div class="well" style="padding-right:0px;padding-left:0px;">
-	    <ul class="nav nav-list">
-	      <li class="nav-header">Feed Timeline</li>
-	      <li class="active"><a href="#">My Timeline</a></li>
-	      <li><a href="#">Home Timeline</a></li>
-
-	      <li class="nav-header">Profiles</li>
-	      <li><a href="#">Friends</a></li>
-	      <li><a href="#">Folowing</a></li>
-	      <li><a href="#">Follower</a></li>
-	    </ul>
-	  </div>
-
-	  <div class="well well-small">
-	    <form>
-	      <fieldset>
-		<legend>Login</legend>
-		<input type="text" class="input-block-level" placeholder="Username">
-		<input type="password" class="input-block-level" placeholder="Password">
-		<input type="submit" class="btn btn-primary btn-block" value="Login">
-		<a href="#" class="btn btn-info btn-block">Register</a>
- 	      </fieldset>
-	    </form>
-	  </div>
-	  
-	</div>
-
-	<div class="span9" id="grid-container">
+	<div class="span12" id="grid-container">
 	  
 	  {% block feeds_html %}Here should be some status{% endblock %}
 
 	</div>
-
 
       </div>
     </div>

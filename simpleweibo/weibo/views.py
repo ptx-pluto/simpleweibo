@@ -8,14 +8,11 @@ from simpleweibo.weibo.models import Profile
 
 #=====================================================================================
 
+def weibo_home(request):
+    return render_to_response('home.html', {'feed_list': get_all_myfeed(None, source='json')})
+
 def weibo_index(request):
     return render_to_response('index.html', {'feed_list': get_all_myfeed(None, source='json')})
-
-def weibo_index_list(request):
-    return render_to_response('index-list.html', {'feed_list': get_all_myfeed(None, source='json')})
-
-def weibo_user_timeline(request):
-    pass
 
 #=====================================================================================
 

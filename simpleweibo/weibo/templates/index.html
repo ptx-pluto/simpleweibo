@@ -5,18 +5,22 @@
 {% for feed in feed_list %}
 <div class="feed-entry grid-tile">
 
+  {% if feed.original_pic %}
+  <div><img src="{{ feed.original_pic }}" width="200"></div>
+  <hr/>
+  {% elif feed.retweeted_status.original_pic %}
+  <div><img src="{{ feed.retweeted_status.original_pic }}" width="200"></div>
+  <hr/>
+  {% endif %}
+
   <p>{{ feed.text }}</p>
 
   <hr/>
   
   {% if 'retweeted_status' in feed %}
-
   <p>{{ feed.retweeted_status.text }}</p>
   <hr/>
-  
   {% endif %}
-
-
   
   <p class="feed-entry-profile">
 

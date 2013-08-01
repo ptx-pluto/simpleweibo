@@ -1,0 +1,56 @@
+{% extends "search-result-base.html" %}
+
+{% block archive_active %}
+class="active"
+{% endblock %}
+
+
+{% block result_html %}
+
+{% for feed in result_list %}
+<div class="feed-entry grid-tile">
+
+  {% if feed.original_pic %}
+  <div><img src="{{ feed.original_pic }}" width="200"></div>
+  <hr/>
+  {% elif feed.retweeted_status.original_pic %}
+  <div><img src="{{ feed.retweeted_status.original_pic }}" width="200"></div>
+  <hr/>
+  {% endif %}
+
+
+  <p>{{ feed.text }}</p>
+
+  <hr/>
+  
+  {% if 'retweeted_status' in feed %}
+
+  <p>{{ feed.retweeted_status.text }}</p>
+  <hr/>
+  
+  {% endif %}
+
+
+  
+  <p class="feed-entry-profile">
+
+    {% if 'retweeted_status' in feed %}
+    <span class="label label-success">Retweeted</span>
+    {% else %}
+    <span class="label label-info">Original</span>
+    {% endif %}
+
+    {% if feed.favorited %}
+    <span class="label label-important">Favorited</span>
+    {% endif %}
+
+    {% if feed.pic_urls or feed.retweeted_status.pic_urls %}
+    <span class="label label-inverse">Photo</span>
+    {% endif %}
+
+  </p>
+  
+</div>
+{% endfor %}
+
+{% endblock %}

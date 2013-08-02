@@ -17,6 +17,7 @@ urlpatterns = patterns('simpleweibo.weibo.views',
     url(r'^ajax/follower$', FollowerList.as_view()),
     url(r'^ajax/following$', FollowingList.as_view()),
     url(r'^ajax/profile$', ProfileList.as_view()),
+    url(r'^ajax/profile.json$', 'profile_json'),
 
 #    url(r'^oauth/login$', 'login_request'),
 #    url(r'^oauth/token$', 'get_sina_code'),

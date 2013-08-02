@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.views.generic import ListView
 import os, urllib, json
 
-from weibowrapper.shortcuts import get_all_follower, get_all_following, get_all_myfeed
+from weibowrapper.shortcuts import get_all_follower, get_all_following, get_all_myfeed, db_search
 from simpleweibo.weibo.models import Profile
 
 #=====================================================================================
@@ -20,7 +20,7 @@ def weibo_index(request):
 #=====================================================================================
 
 def weibo_search_allfeed(request):
-    return render_to_response('search-allfeed.html', {'result_list': get_all_myfeed(None, source='json')})
+    return render_to_response('search-allfeed.html', {'result_list': db_search(request.GET.get('search'))})
 
 def weibo_search_mytimeline(request):
     return render_to_response('search-mytimeline.html', {'result_list': get_all_myfeed(None, source='json')})
@@ -30,6 +30,13 @@ def weibo_search_hometimeline(request):
 
 def weibo_search_archive(request):
     return render_to_response('search-archive.html', {'result_list': get_all_myfeed(None, source='json')})
+
+#=====================================================================================
+# JSON AJAX Interface
+#=====================================================================================
+
+def profile_json(request):
+    return HttpResponse(json.dumps(get_all_follower(None, source='json')))
 
 
 #=====================================================================================

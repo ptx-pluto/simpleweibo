@@ -1,7 +1,5 @@
 {% for profile in object_list %}
-<article>
-  <h3>{{ profile.name }}</h3>
-  <h4>{{ profile.uid }}</h4>
-  <h4>{{ profile.gender }}</h4>
-</article>
+  <p>{{ profile.name }}</p>
+  <p>{{ profile.uid }}</p>
+  <p>{{ profile.gender }}</p>
 {% endfor %}

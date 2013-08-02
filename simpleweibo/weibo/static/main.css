@@ -6,7 +6,32 @@
     padding-top:55px;
 }
 
+.profile-entry { 
+    width: 200px;
+    height: 200px;
+    position: relative;
 
+}
+
+.profile-front { 
+    position:absolute;
+    width:100%;
+    heihgt:100px;
+}
+
+.profile-back { 
+    display:none;
+}
+
+.profile-back-inner {
+    top:0px;
+    bottom: 0px;
+    left:0px;
+    right:0px;
+    width:220px;
+    height:200px;
+    background-color: white;
+}
 .feed-entry { 
 
 }

@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.views.generic import ListView
 import os, urllib, json
 
-from weibowrapper.shortcuts import get_all_follower, get_all_following, get_all_myfeed, db_search
+from weibowrapper.shortcuts import *
 from simpleweibo.weibo.models import Profile
 
 #=====================================================================================
@@ -11,35 +11,63 @@ from simpleweibo.weibo.models import Profile
 def weibo_index(request):
     return render_to_response('index.html', {'feed_list': get_all_myfeed(None, source='json')})
 
-def weibo_home(request):
-    return render_to_response('home.html', {'feed_list': get_all_myfeed(None, source='json')})
+#=====================================================================================
+# Weibo Home Views
+#=====================================================================================
 
-def weibo_timeline(request):
-    return render_to_response('index.html', {'feed_list': get_all_myfeed(None, source='json')})
+def home_timeline(request):
+    return render_to_response('entrance/home/timeline.html', 
+                              {'feed_list': get_all_myfeed(None, source='json')})
+
+def home_archive(request):
+    return render_to_response('entrance/home/archive.html', 
+                              {'feed_list': get_all_archive(None, source='json')})
+
+def home_follower(request):
+    return render_to_response('entrance/home/follower.html', 
+                              {'profile_list': get_all_follower(None, source='json')})
+
+def home_following(request):
+    return render_to_response('entrance/home/following.html',
+                              {'profile_list': get_all_following(None, source='json')})
 
 #=====================================================================================
 # Weibo Search Views
 #=====================================================================================
 
-def weibo_search_allfeed(request):
-    return render_to_response('search-allfeed.html', {'result_list': db_search(request.GET.get('search'))})
+def search_all_feed(request):
+    try:
+        results = search_all(request.GET.get('search'))
+    except:
+        results = []
+    return render_to_response('entrance/search/all-feed.html', 
+                              {'result_list': results})
 
-def weibo_search_mytimeline(request):
-    return render_to_response('search-mytimeline.html', {'result_list': get_all_myfeed(None, source='json')})
+def search_my_feed(request):
+    try:
+        results = search_myfeed(request.GET.get('search'))
+    except:
+        results = []
+    return render_to_response('entrance/search/my-feed.html', 
+                              {'result_list': results})
 
-def weibo_search_hometimeline(request):
-    return render_to_response('search-hometimeline.html', {'result_list': get_all_myfeed(None, source='json')})
+def search_home_timeline(request):
+    try:
+        results = search_db(request.GET.get('search'))
+    except:
+        results = []
+    return render_to_response('entrance/search/home-timeline.html', 
+                              {'result_list': results})
 
-def weibo_search_archive(request):
-    return render_to_response('search-archive.html', {'result_list': get_all_myfeed(None, source='json')})
+def search_archive(request):
+    try:
+        results = search_my_archive(request.GET.get('search'))
+    except:
+        results = []
+    return render_to_response('entrance/search/archive.html', {'result_list': results})
 
 #=====================================================================================
-# JSON AJAX Interface
-#=====================================================================================
-
-def profile_json(request):
-    return HttpResponse(json.dumps(get_all_follower(None, source='json')))
-
+# Generic Views
 #=====================================================================================
 
 class ProfileList(ListView):

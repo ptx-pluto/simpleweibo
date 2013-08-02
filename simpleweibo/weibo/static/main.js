@@ -15,6 +15,25 @@
 	    });
 	});
 
+	$('.profile-front').bind('click', function(){
+	    var elem = $(this)
+
+	    if (elem.data('flipped')){
+		elem.revertFlip();
+		elem.data('flipped', false)
+	    }
+	    else {
+		elem.flip({
+		    direction: 'lr',
+		    speed: 350,
+		    onBefore: function(){
+			elem.html(elem.siblings('.profile-back').html());
+		    }
+		});
+		elem.data('flipped', true);
+	    }
+	    
+	});
 
     });
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Simple Weibo Index</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://static.localhost/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="http://static.localhost/simpleweibo/main.css" rel="stylesheet" media="screen">
+  </head>
+
+  <body>
+    <div class="container">
+
+      {% include "module/navbar.html" %}
+
+      <div class="row" id="main-content">
+	<div class="hero-unit">
+	  <h2>Welcome To Weibo Search</h2>
+	  <p>
+	    This is a sina weibo search tool that allows you to search from your own and your friends' content
+	  </p>
+	  <a class="btn btn-large btn-primary" href="/weibo/search">Try Now</a>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="span12" id="grid-container">
+	  {% block feed_html %}Here should be some status{% endblock %}
+	</div>
+      </div>
+
+    </div>
+
+    <script src="http://static.localhost/lib/jquery-1.10.2.js"></script>
+    <script src="http://static.localhost/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://static.localhost/lib/jquery.wookmark.min.js"></script>
+    <script src="http://static.localhost/simpleweibo/main.js"></script>
+
+  </body>
+</html>

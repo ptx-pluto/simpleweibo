@@ -1,8 +1,18 @@
-{% extends "home-base.html" %}
+{% extends "base/search-base.html" %}
 
-{% block feeds_html %}
+{% block search_source %}
+/weibo/search/my-feed
+{% endblock %}
 
-{% for feed in feed_list %}
+
+{% block my_feed_active %}
+class="active"
+{% endblock %}
+
+
+{% block feed_html %}
+
+{% for feed in result_list %}
 <div class="feed-entry grid-tile">
 
   {% if feed.original_pic %}

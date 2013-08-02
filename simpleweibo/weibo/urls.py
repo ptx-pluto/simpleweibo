@@ -1,25 +1,21 @@
 from django.conf.urls import patterns, include, url
 
-from simpleweibo.weibo.models import Profile
-from simpleweibo.weibo.views import ProfileList, FollowerList, FollowingList, FriendList
-
 urlpatterns = patterns('simpleweibo.weibo.views',
-    url(r'^home$', 'weibo_home'),
+    url(r'^$', 'weibo_index'),
     url(r'^index$', 'weibo_index'),
 
-    url(r'^search/$', 'weibo_search_allfeed'),
-    url(r'^search/allfeed$', 'weibo_search_allfeed'),
-    url(r'^search/mytimeline$', 'weibo_search_mytimeline'),
-    url(r'^search/hometimeline$', 'weibo_search_hometimeline'),
-    url(r'^search/archive$', 'weibo_search_archive'),
+    url(r'^home$',           'home_timeline'),
+    url(r'^home/timeline$',  'home_timeline'),
+    url(r'^home/archive$',   'home_archive'),
+    url(r'^home/follower$',  'home_follower'),
+    url(r'^home/following$', 'home_following'),
 
-    url(r'^timeline$', 'weibo_timeline'),
+    url(r'^search/$',              'search_all_feed'),
+    url(r'^search/all-feed$',      'search_all_feed'),
+    url(r'^search/my-feed$',       'search_my_feed'),
+    url(r'^search/home-timeline$', 'search_home_timeline'),
+    url(r'^search/archive$',       'search_archive'),
 
-    url(r'^ajax/friend$', FriendList.as_view()),
-    url(r'^ajax/follower$', FollowerList.as_view()),
-    url(r'^ajax/following$', FollowingList.as_view()),
-    url(r'^ajax/profile$', ProfileList.as_view()),
-    url(r'^ajax/profile.json$', 'profile_json'),
 
 #    url(r'^oauth/login$', 'login_request'),
 #    url(r'^oauth/token$', 'get_sina_code'),

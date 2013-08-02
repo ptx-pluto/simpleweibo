@@ -1,11 +1,15 @@
-{% extends "search-result-base.html" %}
+{% extends "base/search-base.html" %}
 
-{% block mytimeline_active %}
+{% block search_source %}
+/weibo/search/archive
+{% endblock %}
+
+{% block archive_active %}
 class="active"
 {% endblock %}
 
 
-{% block result_html %}
+{% block feed_html %}
 
 {% for feed in result_list %}
 <div class="feed-entry grid-tile">
@@ -30,8 +34,6 @@ class="active"
   
   {% endif %}
 
-
-  
   <p class="feed-entry-profile">
 
     {% if 'retweeted_status' in feed %}

@@ -1,13 +1,13 @@
-{% extends "search-result-base.html" %}
+{% extends "base/home-base.html" %}
 
 {% block archive_active %}
 class="active"
 {% endblock %}
 
 
-{% block result_html %}
+{% block feed_html %}
 
-{% for feed in result_list %}
+{% for feed in feed_list %}
 <div class="feed-entry grid-tile">
 
   {% if feed.original_pic %}

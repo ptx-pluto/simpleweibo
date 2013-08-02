@@ -1,11 +1,15 @@
-{% extends "search-result-base.html" %}
+{% extends "base/search-base.html" %}
 
-{% block hometimeline_active %}
+{% block search_source %}
+/weibo/search/home-timeline
+{% endblock %}
+
+{% block home_timeline_active %}
 class="active"
 {% endblock %}
 
 
-{% block result_html %}
+{% block feed_html %}
 
 {% for feed in result_list %}
 <div class="feed-entry grid-tile">

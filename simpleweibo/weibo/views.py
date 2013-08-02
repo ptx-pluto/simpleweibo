@@ -8,12 +8,14 @@ from simpleweibo.weibo.models import Profile
 
 #=====================================================================================
 
-def weibo_home(request):
-    return render_to_response('home.html', {'feed_list': get_all_myfeed(None, source='json')})
-
 def weibo_index(request):
     return render_to_response('index.html', {'feed_list': get_all_myfeed(None, source='json')})
 
+def weibo_home(request):
+    return render_to_response('home.html', {'feed_list': get_all_myfeed(None, source='json')})
+
+def weibo_timeline(request):
+    return render_to_response('index.html', {'feed_list': get_all_myfeed(None, source='json')})
 
 #=====================================================================================
 # Weibo Search Views
@@ -37,7 +39,6 @@ def weibo_search_archive(request):
 
 def profile_json(request):
     return HttpResponse(json.dumps(get_all_follower(None, source='json')))
-
 
 #=====================================================================================
 

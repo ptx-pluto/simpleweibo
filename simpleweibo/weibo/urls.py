@@ -13,6 +13,8 @@ urlpatterns = patterns('simpleweibo.weibo.views',
     url(r'^search/hometimeline$', 'weibo_search_hometimeline'),
     url(r'^search/archive$', 'weibo_search_archive'),
 
+    url(r'^timeline$', 'weibo_timeline'),
+
     url(r'^ajax/friend$', FriendList.as_view()),
     url(r'^ajax/follower$', FollowerList.as_view()),
     url(r'^ajax/following$', FollowingList.as_view()),

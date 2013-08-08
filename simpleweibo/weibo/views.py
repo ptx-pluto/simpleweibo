@@ -9,7 +9,7 @@ from simpleweibo.weibo.models import Profile
 #=====================================================================================
 
 def weibo_index(request):
-    return render_to_response('index.html', {'feed_list': get_all_myfeed(None, source='json')})
+    return render_to_response('entrance/index.html', {'feed_list': get_all_myfeed(None, source='json')})
 
 #=====================================================================================
 # Weibo Home Views
@@ -65,26 +65,6 @@ def search_archive(request):
     except:
         results = []
     return render_to_response('entrance/search/archive.html', {'result_list': results})
-
-#=====================================================================================
-# Generic Views
-#=====================================================================================
-
-class ProfileList(ListView):
-    model = Profile
-    template_name = 'ajax-profile.html'
-
-class FollowerList(ListView):
-    queryset = Profile.objects.filter(follower=True)
-    template_name = 'ajax-profile.html'
-
-class FollowingList(ListView):
-    queryset = Profile.objects.filter(following=True)
-    template_name = 'ajax-profile.html'
-
-class FriendList(ListView):
-    queryset = Profile.objects.filter(follower=True, following=True)
-    template_name = 'ajax-profile.html'
 
 #=====================================================================================
 

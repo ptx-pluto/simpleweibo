@@ -1,88 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base/base.html" %}
 
-  <head>
-    <title>Simple Weibo - Home</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="http://static.localhost/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="http://static.localhost/lib/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
+{% block title %}
+Home
+{% endblock %}
 
-    <link href="http://static.localhost/simpleweibo/main.css" rel="stylesheet" media="screen">
-  </head>
+{% block home_active %}
+class="active"
+{% endblock %}
 
-  <body>
-    <div class="container">
-
-      <header calss="row">
-	<div class="span12">
-	  <nav class="navbar navbar-fixed-top">
-	    <div class="navbar-inner" style="padding-right:10px;padding-left:10px;">
-	      
-	      <a href="/weibo/index" class="brand">
-		<span>SimpleWeibo</span>
-	      </a>
-	      
-	      <ul class="nav">
-		<li><a href="/weibo/index"><i class="icon-home"></i> Index</a></li>
-		<li class="active"><a href="/weibo/home"><i class="icon-comment"></i> Home</a></li>
-		<li><a href="/weibo/search"><i class="icon-info-sign"></i> Search</a></li>
-		<li class="dropdown">
-		  <a href="#" calss="dropdown-toggle" data-toggle="dropdown">
-		    <i class="icon-user"></i> Connect
-		    <b class="caret"></b>
-		  </a>
-		  <ul class="dropdown-menu">
-		    <li><a href="#">Weibo</a></li>
-		    <li><a href="#">Twitter</a></li>
-		    <li><a href="#">Facebook</a></li>
-		    <li><a href="#">Google+</a></li>
-		    <li class="divider"></li>
-		    <li><a href="#">Contact</a></li>
-		  </ul>
-		</li>
-	      </ul>
-	      
-	      <form action="/weibo/search" method="GET" class="navbar-search pull-right">
-		<input id="search-bar" type="text" name="search" class="search-query" placeholder="Search">
-	      </form>
-	      
-	    </div>
-	  </nav>
-	</div>
-      </header>
+{% block main_content %}
+<div id="sidebar" class="span3">
+  
+  <div class="well" style="padding-right:0px;padding-left:0px;min-height:400px">
+    <ul class="nav nav-list">
+      <li class="nav-header">Feed</li>
+      <li {% block timeline_active %}{% endblock %}><a href="/weibo/home/timeline">Timeline</a></li>
+      <li {% block archive_active %}{% endblock %}><a href="/weibo/home/archive">Archive</a></li>
       
-      <div class="row" id="main-content">
-	
-	<div id="sidebar" class="span3">
+      <li class="nav-header">Profiles</li>
+      <li {% block following_active %}{% endblock %}><a href="/weibo/home/following">Folowing</a></li>
+      <li {% block follower_active %}{% endblock %}><a href="/weibo/home/follower">Follower</a></li>
+    </ul>
+  </div>
+  
+</div>
 
-	  <div class="well" style="padding-right:0px;padding-left:0px;min-height:400px">
-	    <ul class="nav nav-list">
-	      <li class="nav-header">Feed</li>
-	      <li {% block timeline_active %}{% endblock %}><a href="/weibo/home/timeline">Timeline</a></li>
-	      <li {% block archive_active %}{% endblock %}><a href="/weibo/home/archive">Archive</a></li>
+<div class="span9" id="grid-container">
+  {% block feed_html %}Here should be some status{% endblock %}
+</div>
 
-	      <li class="nav-header">Profiles</li>
-	      <li {% block following_active %}{% endblock %}><a href="/weibo/home/following">Folowing</a></li>
-	      <li {% block follower_active %}{% endblock %}><a href="/weibo/home/follower">Follower</a></li>
-	    </ul>
-	  </div>
-
-	</div>
-	
-	<div class="span9" id="grid-container">
-	  {% block feed_html %}Here should be some status{% endblock %}
-	</div>
-
-      </div>
-    </div>
-
-    <script src="http://static.localhost/lib/jquery-1.10.2.js"></script>
-    <script src="http://static.localhost/lib/jquery-ui/js/jquery-ui-1.10.3.custom.js"></script>
-    <script src="http://static.localhost/lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="http://static.localhost/lib/jquery.wookmark.min.js"></script>
-    <script src="http://static.localhost/lib/jquery.flip.js"></script>
-    <script src="http://static.localhost/simpleweibo/main.js"></script>
-
-  </body>
-</html>
+{% endblock %}

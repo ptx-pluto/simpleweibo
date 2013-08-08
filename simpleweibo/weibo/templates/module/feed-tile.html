@@ -1,9 +1,3 @@
-{% extends 'base/index-base.html' %}
-
-
-{% block feed_html %}
-
-{% for feed in feed_list %}
 <div class="feed-entry grid-tile">
 
   {% if feed.original_pic %}
@@ -22,7 +16,7 @@
   <p>{{ feed.retweeted_status.text }}</p>
   <hr/>
   {% endif %}
-  
+
   <p class="feed-entry-profile">
 
     {% if 'retweeted_status' in feed %}
@@ -42,6 +36,3 @@
   </p>
   
 </div>
-{% endfor %}
-
-{% endblock %}

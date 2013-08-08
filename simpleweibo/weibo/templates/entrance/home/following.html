@@ -6,20 +6,8 @@ class="active"
 
 {% block feed_html %}
 
-{% for profile in profile_list %}
-<div class="profile-entry grid-tile">
-  <div class="profile-front">
-    <img src="{{ profile.avatar_large }}" width="200">
-  </div>
-
-  <div class="profile-back">
-    <div class="profile-back-inner">
-      <h3>{{ profile.name}}</h3>
-      <p>{{ profile.description }}</p>
-    </div>
-  </div>
-
-</div>
-{% endfor %}
+  {% for profile in profile_list %}
+    {% include "module/profile-tile.html" %}
+  {% endfor %}
 
 {% endblock %}

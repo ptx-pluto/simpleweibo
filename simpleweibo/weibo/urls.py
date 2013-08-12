@@ -10,7 +10,7 @@ urlpatterns = patterns('simpleweibo.weibo.views',
     url(r'^home/follower$',  'home_follower'),
     url(r'^home/following$', 'home_following'),
 
-    url(r'^search/$',              'search_all_feed'),
+    url(r'^search/$',              'search_enter'),
     url(r'^search/all-feed$',      'search_all_feed'),
     url(r'^search/my-feed$',       'search_my_feed'),
     url(r'^search/home-timeline$', 'search_home_timeline'),

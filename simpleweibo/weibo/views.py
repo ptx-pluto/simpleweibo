@@ -35,36 +35,76 @@ def home_following(request):
 # Weibo Search Views
 #=====================================================================================
 
-def search_all_feed(request):
-    try:
+def search_enter(request):
+    keyword = request.GET.get('search')
+    if keyword and keyword != '':
         results = search_all(request.GET.get('search'))
-    except:
+    else:
         results = []
-    return render_to_response('entrance/search/all-feed.html', 
-                              {'result_list': results})
+        keyword = ''
+    resp = render_to_response('entrance/search/all-feed.html', {'result_list': results})
+    resp.set_cookie('LAST_SEARCH', keyword)
+    return resp
+
+def search_all_feed(request):
+    keyword = request.GET.get('search')
+    if not keyword:
+        if 'LAST_SEARCH' in request.COOKIES:
+            keyword = request.COOKIES['LAST_SEARCH']
+        else:
+            keyword = ''
+    if keyword != '':
+        results = search_all(keyword)
+    else:
+        results = []
+    resp = render_to_response('entrance/search/all-feed.html', {'result_list': results})
+    resp.set_cookie('LAST_SEARCH', keyword)
+    return resp
 
 def search_my_feed(request):
-    try:
-        results = search_myfeed(request.GET.get('search'))
-    except:
+    keyword = request.GET.get('search')
+    if not keyword:
+        if 'LAST_SEARCH' in request.COOKIES:
+            keyword = request.COOKIES['LAST_SEARCH']
+        else:
+            keyword = ''
+    if keyword != '':
+        results = search_myfeed(keyword)
+    else:
         results = []
-    return render_to_response('entrance/search/my-feed.html', 
-                              {'result_list': results})
+    resp = render_to_response('entrance/search/my-feed.html', {'result_list': results})
+    resp.set_cookie('LAST_SEARCH', keyword)
+    return resp
 
 def search_home_timeline(request):
-    try:
-        results = search_db(request.GET.get('search'))
-    except:
+    keyword = request.GET.get('search')
+    if not keyword:
+        if 'LAST_SEARCH' in request.COOKIES:
+            keyword = request.COOKIES['LAST_SEARCH']
+        else:
+            keyword = ''
+    if keyword != '':
+        results = search_db(keyword)
+    else:
         results = []
-    return render_to_response('entrance/search/home-timeline.html', 
-                              {'result_list': results})
+    resp = render_to_response('entrance/search/home-timeline.html', {'result_list': results})
+    resp.set_cookie('LAST_SEARCH', keyword)
+    return resp
 
 def search_archive(request):
-    try:
-        results = search_my_archive(request.GET.get('search'))
-    except:
+    keyword = request.GET.get('search')
+    if not keyword:
+        if 'LAST_SEARCH' in request.COOKIES:
+            keyword = request.COOKIES['LAST_SEARCH']
+        else:
+            keyword = ''
+    if keyword != '':
+        results = search_my_archive(keyword)
+    else:
         results = []
-    return render_to_response('entrance/search/archive.html', {'result_list': results})
+    resp = render_to_response('entrance/search/archive.html', {'result_list': results})
+    resp.set_cookie('LAST_SEARCH', keyword)
+    return resp
 
 #=====================================================================================
 

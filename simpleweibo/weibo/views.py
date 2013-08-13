@@ -32,77 +32,28 @@ def home_following(request):
                               {'profile_list': get_all_following(None, source='json')})
 
 #=====================================================================================
-# Weibo Search Views
+# Weibo Search
 #=====================================================================================
 
-def search_enter(request):
-    keyword = request.GET.get('search')
-    if keyword and keyword != '':
-        results = search_all(request.GET.get('search'))
-    else:
-        results = []
-        keyword = ''
-    resp = render_to_response('entrance/search/all-feed.html', {'result_list': results})
-    resp.set_cookie('LAST_SEARCH', keyword)
-    return resp
+search_templates = {
+    'all-feed': 'entrance/search/all-feed.html',
+    'my-feed': 'entrance/search/my-feed.html',
+    'home-timeline': 'entrance/search/home-timeline.html',
+    'archive': 'entrance/search/archive.html',
+}
 
-def search_all_feed(request):
-    keyword = request.GET.get('search')
-    if not keyword:
-        if 'LAST_SEARCH' in request.COOKIES:
-            keyword = request.COOKIES['LAST_SEARCH']
-        else:
-            keyword = ''
-    if keyword != '':
-        results = search_all(keyword)
-    else:
-        results = []
-    resp = render_to_response('entrance/search/all-feed.html', {'result_list': results})
-    resp.set_cookie('LAST_SEARCH', keyword)
-    return resp
+search_domains = [
+    'all-feed',
+    'my-feed',
+    'home-timeline',
+    'archive',
+]
 
-def search_my_feed(request):
-    keyword = request.GET.get('search')
-    if not keyword:
-        if 'LAST_SEARCH' in request.COOKIES:
-            keyword = request.COOKIES['LAST_SEARCH']
-        else:
-            keyword = ''
-    if keyword != '':
-        results = search_myfeed(keyword)
-    else:
-        results = []
-    resp = render_to_response('entrance/search/my-feed.html', {'result_list': results})
-    resp.set_cookie('LAST_SEARCH', keyword)
-    return resp
-
-def search_home_timeline(request):
-    keyword = request.GET.get('search')
-    if not keyword:
-        if 'LAST_SEARCH' in request.COOKIES:
-            keyword = request.COOKIES['LAST_SEARCH']
-        else:
-            keyword = ''
-    if keyword != '':
-        results = search_db(keyword)
-    else:
-        results = []
-    resp = render_to_response('entrance/search/home-timeline.html', {'result_list': results})
-    resp.set_cookie('LAST_SEARCH', keyword)
-    return resp
-
-def search_archive(request):
-    keyword = request.GET.get('search')
-    if not keyword:
-        if 'LAST_SEARCH' in request.COOKIES:
-            keyword = request.COOKIES['LAST_SEARCH']
-        else:
-            keyword = ''
-    if keyword != '':
-        results = search_my_archive(keyword)
-    else:
-        results = []
-    resp = render_to_response('entrance/search/archive.html', {'result_list': results})
+def search_view(request, domain='all-feed'):
+    assert domain in search_domains
+    keyword = request.GET.get('search', request.COOKIES.get('LAST_SEARCH',''))
+    results = search_weibo(keyword, domain=domain) if keyword != '' else []
+    resp = render_to_response(search_templates[domain], {'result_list': results})
     resp.set_cookie('LAST_SEARCH', keyword)
     return resp
 

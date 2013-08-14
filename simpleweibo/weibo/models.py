@@ -1,15 +1,25 @@
 from django.db import models
 
-GENDER_CHOICE = (('m','Male'),
-                 ('f','Female'),)
-
-class Profile(models.Model):
-
+class WeiboProfile(models.Model):
     uid = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=20)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICE)
-    following = models.BooleanField(default=False)
-    follower = models.BooleanField(default=False)
+    profile_content = models.CharField()
 
     def __unicode__(self):
         return self.name
+
+class Relation(models.Model):
+    follower  = models.ForeignKey(WeiboProfile)
+    following = models.ForeignKey(WeiboProfile)
+
+    def __unicode__(self):
+        return '%s is following %s' % (self.follower, self.following)
+
+
+class Status(models.Model):
+    status_id = models.CharField(primary_key=True)
+    source_uid = models.CharField(max_length=10)
+    retweet_id = models.CharField()
+    status_content = models.CharField()
+
+    def __unicode__(self):
+        return self.status_id

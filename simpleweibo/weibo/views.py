@@ -1,7 +1,7 @@
+import os, urllib, json
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.views.generic import ListView
-import os, urllib, json
 
 from weibowrapper.shortcuts import *
 from simpleweibo.weibo.models import Profile
@@ -86,7 +86,6 @@ def profile_init(request):
 def profile_clear(request):
     Profile.objects.all().delete()
     return HttpResponse('Successed!')
-
 
 #=====================================================================================
 

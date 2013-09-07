@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns(
-    'simpleweibo.weibo.views',
+    'apps.weibo.views',
     url(r'^$', 'weibo_index'),
     url(r'^index$', 'weibo_index'),
 
@@ -16,9 +16,5 @@ urlpatterns = patterns(
 
 #    url(r'^oauth/login$', 'login_request'),
 #    url(r'^oauth/token$', 'get_sina_code'),
-
-    url(r'^test/init$', 'weibo_init'),
-    url(r'^test/clear$', 'weibo_clear'),
-    url(r'^test/$', 'test'),
 
 )

@@ -4,7 +4,6 @@ from django.shortcuts import render_to_response
 from django.views.generic import ListView
 
 from weibowrapper.shortcuts import *
-from simpleweibo.weibo.models import Profile
 
 #=====================================================================================
 
@@ -68,27 +67,3 @@ def search_view(request, domain='all-feed'):
 #    return HttpResponse('')
 
 #=====================================================================================
-
-def profile_init(request):
-    for profile in get_all_following(None, source='json'):
-        p = Profile(uid=profile['id'], name=profile['name'], following=True, gender=profile['gender'])
-        p.save()
-    for profile in get_all_follower(None, source='json'):
-        try:
-            p = Profile.objects.get(uid=profile['id'])
-            p.follower = True
-        except:
-            p = Profile(uid=profile['id'], name=profile['name'], follower=True, gender=profile['gender'])
-        finally:
-            p.save()
-    return HttpResponse('Successed!')
-
-def profile_clear(request):
-    Profile.objects.all().delete()
-    return HttpResponse('Successed!')
-
-#=====================================================================================
-
-def test(request):
-    print(Profile.objects.get(uid='12345'))
-    return 'Successed'

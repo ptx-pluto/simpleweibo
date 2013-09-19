@@ -4,18 +4,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 
+from utils.view_decorators import json_view
 from apps.profile.models import WeiboBinding
 from apps.weibo.models import WeiboProfile
 
 #==========================================================================================================
 
+@json_view
 def status_view(request):
     if request.user.is_authenticated():
-        return HttpResponse('You are loged in')
+        return dict(loged_in=True)
     else:
-        return HttpResponse('You are not loged in')
+        return dict(loged_in=False)
 
-
+@json_view
 def login_view(request):
     if 'username' not in request.POST or 'password' not in request.POST:
         return render_to_response('login.html', {})
@@ -29,12 +31,12 @@ def login_view(request):
         else:
             return HttpResponse('Login Failed')
 
-
+@json_view
 def logout_view(request):
     auth.logout(request)
     return HttpResponse('Loged out')
     
-
+@json_view
 def register_view(request):
     if 'username' not in request.POST or 'password' not in request.POST or 'email' not in request.POST:
         return render_to_response('register.html', {})
@@ -48,6 +50,7 @@ def register_view(request):
 
 
 @login_required(login_url='/auth/login')
+@json_view
 def bind_view(request):
     if 'uid' not in request.POST or 'token' not in request.POST:
         return render_to_response('bind.html', {})

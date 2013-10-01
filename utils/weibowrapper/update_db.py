@@ -1,4 +1,7 @@
 #!/usr/bin/env python
 
-import shortcuts
+from weibowrapper.shortcuts import *
+
+if __name__ == '__main__':
+    pass
 

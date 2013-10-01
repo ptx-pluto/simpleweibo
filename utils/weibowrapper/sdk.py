@@ -4,13 +4,13 @@
 # This is the SDK of Sina Weibo
 #----------------------------------------------------------------------------------
 
-import sqlite3 as sqlite
-import sys, os, urllib, json
+import os
+import sys
+import json
+import urllib
 
-try:
-    import requests
-except:
-    print("do not have requests installed, can't access API through web")
+import sqlite3 as sqlite
+import requests
 
 from weibowrapper import conf
 
@@ -19,7 +19,6 @@ from weibowrapper import conf
 #----------------------------------------------------------------------------------
 
 class WeiboAccount(object):
-
     def __init__(self, uid, token=None):
         self.uid = uid
         self.access_token = token
@@ -50,15 +49,6 @@ class WeiboAccount(object):
 # 2. get_sina_code -> receive CODE from sina
 # 3. request_sina_token -> use code and app info request for token
 #----------------------------------------------------------------------------------
-#
-#----------------------------------------------------------------------------------
-# Execute
-#----------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    print('use python -i to run this module interactively')
-
-
-#----------------------------------------------------------------------------------
-# Test
-#----------------------------------------------------------------------------------
+    pass

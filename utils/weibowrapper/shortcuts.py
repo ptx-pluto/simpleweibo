@@ -2,7 +2,10 @@
 # -*- utf-8 -*-
 #=====================================================================================
 
-import json, os, math
+import json
+import os
+import math
+
 from whoosh.index import create_in
 from whoosh.fields import *
 from whoosh.index import open_dir
@@ -12,241 +15,71 @@ from weibowrapper import sdk, conf
 from weibowrapper.sdk import WeiboAccount
 
 #=====================================================================================
-# For Test
+# get_all_x Shortcuts
 #=====================================================================================
 
-myself = WeiboAccount(conf.uid_example, token=conf.token_example)
-
-#=====================================================================================
-# Online API wrapper
-#=====================================================================================
-
-def get_all_follower (account, source='web', target='return'):
-    if source == 'json':
-        with open(conf.PATH_FOLLOWER_JSON, 'r') as f:
-            follower_list = json.loads(f.read())
-    else:
-        query = {'count': 200}
-        result = account.call_api(conf.API_FOLLOWER, query)
-        follower_list = result['users']
-        while (result['next_cursor'] != 0):
-            query['cursor'] = result['next_cursor']
-            result = account.call_api(conf.API_FOLLOWER, query)
-            follower_list += result['users']
-    if target == 'return':
-        return follower_list
-    else:
-        with open(conf.PATH_FOLLOWER_JSON, 'a') as f:
-            f.write(json.dumps(follower_list))
-
-def get_all_following (account, source='web', target='return'):
-    if source == 'json':
-        with open(conf.PATH_FOLLOWING_JSON, 'r') as f:
-            following_list = json.loads(f.read())
-    else:
-        query = {'count': 200}
-        result = account.call_api(conf.API_FOLLOWING, query)
-        following_list = result['users']
-        while (result['next_cursor'] != 0):
-            query['cursor'] = result['next_cursor']
-            result = account.call_api(conf.API_FOLLOWING, query)
-            following_list += result['users']
-    if target == 'return':
-        return following_list
-    else:
-        with open(conf.PATH_FOLLOWING_JSON, 'a') as f:
-            f.write(json.dumps(following_list))
-
-def get_all_myfeed(account, source='web', target='return'):
-    if source == 'json':
-        with open(conf.PATH_MYFEED_JSON, 'r') as f:
-            myfeed_list = json.loads(f.read())
-    else:
-        query = {'count': 100}
-        result = account.call_api(conf.API_MYFEED, query)
-        myfeed_list = result['statuses']
-    if target == 'return':
-        return myfeed_list
-    else:
-        with open(conf.PATH_MYFEED_JSON, 'a') as f:
-            f.write(json.dumps(myfeed_list))
-
-def get_all_archive(account, source='web'):
-    if source == 'json':
-        with open(conf.PATH_ARCHIVE_JSON, 'r') as f:
-            feed_list = json.loads(f.read())
-    else:
-        query = {'count':50, 'page':1}
-        first_round = True
-        total = 1
-        feed_list = []
-        while (total > len(feed_list)):
-            if first_round:
-                result = account.call_api(conf.API_ARCHIVE, query)
-                total = result['total_number']
-                first_round = False
-            else:
-                result = account.call_api(conf.API_ARCHIVE, query)
-                for entry in result['favorites']:
-                    feed_list.append(entry['status'])
-            query['page'] = query['page'] + 1
-    return feed_list
-
-def get_user_feed(account, uid):
-    result = []
-    base_path = conf.PATH_FEED_DB + '/' + uid + '/'
-    if os.path.exists(base_path):
-        for feed in os.listdir(base_path):
-            with open(base_path+feed) as f:
-                result.append(json.loads(f.read()))
-    return result
-
-#=====================================================================================
-# Download All Shortcuts
-#=====================================================================================
-
-def download_all_follower (account, storage='return', handler=None):
-    assert storage in ['return','file','handler']
-    print('Begin downloading follower ...')
-
+def get_follower(account):
     in_progress = True
     query = {'count': 200}
     follower_list = []
     while (in_progress):
         result = account.call_api(conf.API_FOLLOWER, query)
-        if storage == 'handler':
-            for profile in result['users']:
-                handler(profile)
-        else:
-            follower_list += result['users']
+        print(result)
+        for profile in result['users']:
+            yield profile
         query['cursor'] = result['next_cursor']
         in_progress = (result['next_cursor'] != 0)
 
-    print('Finished downloading follower')
 
-    if storage == 'file':
-        with open(conf.PATH_FOLLOWER_JSON, 'w') as f:
-            f.write(json.dumps(follower_list))
-    elif storage == 'return':
-        return follower_list
-
-#===================================================================================================
-
-def download_all_following (account, storage='return', handler=None):
-    assert storage in ['return','file','handler']
-    print('Begin downloading following...')
-
+def get_following(account):
     in_progress = True
     query = {'count': 200}
     following_list = []
     while (in_progress):
         result = account.call_api(conf.API_FOLLOWING, query)
-        if storage == 'handler':
-            for profile in result['users']:
-                handler(profile)
-        else:
-            following_list += result['users']            
+        for profile in result['users']:
+            yield profile
         query['cursor'] = result['next_cursor']
         in_progress = result['next_cursor'] is not 0
 
-    print('Finished downloading following')
 
-    if storage == 'file':
-        with open(conf.PATH_FOLLOWING_JSON, 'w') as f:
-            f.write(json.dumps(following_list))
-    if storage == 'return':
-        return following_list
-
-#===================================================================================================
-
-def download_all_myfeed(account, storage='return', handler=None):
-    assert storage in ['return','file','handler']
-    print('Begin downloading my feed...')
-
+def get_all_myfeed(account):
     first_round = True
     total_page = 0
-    current_page = 1
-    query = {'count': 100, 'page': current_page}
-    myfeed_list = []
-    while (total_page >= current_page):
+    query = {'count': 100, 'page': 1}
+    while (first_round or total_page >= query['page']):
         result = account.call_api(conf.API_MYFEED, query)
         if first_round:
-            total_page = math.ceil(results['total_number']/100)
+            total_page = math.ceil(result['total_number']/100)
             first_round = False
-        if storage == 'handler':
-            for tweet in result['statuses']:
-                handler(tweet)
-        else:
-            myfeed_list += result['statuses']
-        current_page += 1
-        query['page'] = current_page
+        for feed in result['statuses']:
+            yield feed
+        query['page'] += 1
 
-    print('Finished downloading my feed')        
 
-    if storage == 'file':
-        with open(conf.PATH_MYFEED_JSON, 'w') as f:
-            f.write(json.dumps(myfeed_list))
-    elif storage =='return':
-        return myfeed_list
-
-#=====================================================================================
-
-def download_all_archive(account, storage='return', handler=None):
-    assert storage in ['return','file','handler']
-    print('Begin downloading archive...')
-
-    query = {'count':50, 'page':1}
+def get_all_archive(account):
+    query = {'count':50, 'page': 1}
     first_round = True
-    total = 1
-    feed_list = []
-    while (total > len(feed_list)):
+    total_page = 0
+    while (first_round or total_page >= query['page']):
+        result = account.call_api(conf.API_ARCHIVE, query)
         if first_round:
-            result = account.call_api(conf.API_ARCHIVE, query)
-            total = result['total_number']
+            total_page = math.ceil(result['total_number']/50)
             first_round = False
-        else:
-            result = account.call_api(conf.API_ARCHIVE, query)
-        if storage == 'handler':
-            for entry in result['favorites']:
-                handler(entry['status'])
-        else:
-            feed_list.append([ entry['status'] for entry in result['favorites'] ])
+        for entry in result['favorites']:
+            yield entry['status']
         query['page'] = query['page'] + 1
 
-    print('Finished downloading archive')
 
-    if storage == 'return':
-        return feed_list
-    elif storage == 'file':
-        with open(conf.PATH_ARCHIVE_JSON, 'w') as f:
-            f.write(json.dumps(feed_list))
-
-#===================================================================================================
-
-def download_all_timeline(acocunt, storage='file', handler=None):
-    assert storage in ['file','handler']
-    print('Begin downloading timeline...')
-
+def get_all_timeline(acocunt):
     in_progress = True
-    first_round = True
+    query = {'count': 100}
     while (in_progress):
-        if first_round:
-            result = acocunt.call_api(conf.API_TIMELINE, {'count':100})
-            first_round = False
-        else:
-            result = acocunt.call_api(conf.API_TIMELINE, {'count': 100, 'max_id': result['next_cursor']})
-        for tweet in result['statuses']:
-            if storage == 'handler':
-                handler(tweet)
-            elif storage == 'file':
-                path = conf.PATH_FEED_DB + '/' + str(tweet['user']['id'])
-                if not os.path.exists(path):
-                    os.mkdir(path)
-                with open(path+'/'+str(tweet['id']), 'w') as f:
-                    f.write(json.dumps(tweet))
-        in_progress = result['next_cursor'] is not 0
-
-    print('Finished downloading timeline')
+        result = acocunt.call_api(conf.API_TIMELINE, query)
+        for feed in result['statuses']:
+            yield feed
+        query['max_id'] = result['next_cursor']
+        in_progress = result['next_cursor'] != 0
 
 #=====================================================================================
 # Search Functionality
@@ -269,15 +102,17 @@ def index_db():
             with open(conf.PATH_FEED_DB+rel_path, 'r') as f:
                 doc = json.loads(f.read())
             if 'retweeted_status' in doc:
-                my_writer.add_document( path     = rel_path, 
-                                        tweet_id = str(doc['id']), 
-                                        content  = doc['text'],
-                                        retweet  = doc['retweeted_status']['text'])
+                my_writer.add_document( 
+                    path     = rel_path, 
+                    tweet_id = str(doc['id']), 
+                    content  = doc['text'],
+                    retweet  = doc['retweeted_status']['text'])
             else:
-                my_writer.add_document( path     = rel_path, 
-                                        tweet_id = str(doc['id']), 
-                                        content  = doc['text'],
-                                        retweet  = '')                
+                my_writer.add_document( 
+                    path     = rel_path, 
+                    tweet_id = str(doc['id']), 
+                    content  = doc['text'],
+                    retweet  = '')                
     my_writer.commit()
 
 def search_db(query_str):    
@@ -306,13 +141,15 @@ def index_myfeed():
         feeds = json.loads(f.read())
         for feed in feeds:
             if 'retweeted_status' in feed:
-                my_writer.add_document( feed_id = str(feed['id']), 
-                                        content = feed['text'],
-                                        retweet = feed['retweeted_status']['text'])
+                my_writer.add_document( 
+                    feed_id = str(feed['id']), 
+                    content = feed['text'],
+                    retweet = feed['retweeted_status']['text'])
             else:
-                my_writer.add_document( feed_id = str(feed['id']), 
-                                        content = feed['text'],
-                                        retweet = '')
+                my_writer.add_document( 
+                    feed_id = str(feed['id']), 
+                    content = feed['text'],
+                    retweet = '')
     my_writer.commit()
 
 def search_myfeed(query_str):
@@ -340,13 +177,15 @@ def index_archive():
         feeds = json.loads(f.read())
         for feed in feeds:
             if 'retweeted_status' in feed:
-                my_writer.add_document( feed_id = str(feed['id']), 
-                                        content = feed['text'],
-                                        retweet = feed['retweeted_status']['text'])
+                my_writer.add_document( 
+                    feed_id = str(feed['id']), 
+                    content = feed['text'],
+                    retweet = feed['retweeted_status']['text'])
             else:
-                my_writer.add_document( feed_id = str(feed['id']), 
-                                        content = feed['text'],
-                                        retweet = '')
+                my_writer.add_document( 
+                    feed_id = str(feed['id']), 
+                    content = feed['text'],
+                    retweet = '')
     my_writer.commit()
 
 def search_my_archive(query_str):
@@ -359,32 +198,3 @@ def search_my_archive(query_str):
         with open(conf.PATH_ARCHIVE_JSON,'r') as f:
             feeds = json.loads(f.read())
             return [feed for feed in feeds if str(feed['id']) in result_list]
-        
-def search_all(query_str):
-    return search_db(query_str) + search_myfeed(query_str) + search_my_archive(query_str)
-
-def search_weibo(query_str, domain='all-feed'):
-    if domain == 'all-feed':
-        return search_all(query_str)
-    elif domain == 'my-feed':
-        return search_myfeed(query_str)
-    elif domain == 'home-timeline':
-        return search_db(query_str)
-    elif domain == 'archive':
-        return search_my_archive(query_str)
-    else:
-        return None
-
-#=====================================================================================
-# Adminidtration Shortcuts
-#=====================================================================================
-
-def update_all_db(account):
-    download_all_follower(account)
-    download_all_following(account)
-    download_all_myfeed(account)
-    download_all_timeline(account)
-    download_all_archive(account)
-    index_db()
-    index_myfeed()
-    index_archive()

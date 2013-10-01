@@ -4,9 +4,12 @@
 # Set Path Variables
 #=================================================================
 
-import os, sys
+import os
+import sys
 
 CURRENT_DIR  = os.path.dirname(__file__)
+sys.path.append(os.path.join(CURRENT_DIR, 'apps'))
+
 PROJECT_ROOT = CURRENT_DIR
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -140,8 +143,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
-    'apps.weibo',
-    'apps.profile',
+    'weibo',
+    'profile',
 )
 
 # A sample logging configuration. The only tangible logging

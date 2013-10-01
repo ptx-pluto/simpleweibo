@@ -1,18 +1,21 @@
 from django.db import models
 
+UID_LENGTH = 1
+FEED_ID_LENGTH = 1
 
-class WeiboProfile(models.Model):
-    uid = models.CharField(max_length=10, primary_key=True)
-    content = models.TextField()
+class Profile(models.Model):
+    uid = models.CharField()
     
-    def __str__(self):
-        return self.uid
 
-class Status(models.Model):
-    status_id = models.CharField(max_length=11, primary_key=True)
-    source_uid = models.ForeignKey(WeiboProfile)
-    retweet_id = models.CharField(max_length=11)
-    status_content = models.TextField()
+class Account(models.Model):
+    feed = models.OneToOneField(Profile)
+    token = models.TextField()
+    feed_head = models.CharField()
 
-    def __str__(self):
-        return self.status_id
+class Feed(models.Model):
+    content = models.TextField()
+    feed_id = models.CharField()
+    time = models.DateTimeField()
+    source = models.ForeignKey(Profile)
+
+

@@ -1,18 +1,13 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns(
-    'apps.weibo.views',
-    url(r'^$', 'weibo_index'),
-    url(r'^index$', 'weibo_index'),
+    'weibo.views',
+    url(r'^account/bind$' , 'bind_account'),
+    url(r'^account/token$', 'fetch_token'),
 
-    url(r'^home$',           'home_timeline'),
-    url(r'^home/timeline$',  'home_timeline'),
-    url(r'^home/archive$',   'home_archive'),
-    url(r'^home/follower$',  'home_follower'),
-    url(r'^home/following$', 'home_following'),
-    
-    url(r'^search/$',                'search_view'),
-    url(r'^search/(?P<domain>\S+)$', 'search_view'),
+    url(r'^feed/timeline$' , 'timeline_feed'),
+    url(r'^feed/following$', 'following_feed'),
+    url(r'^feed/archive$'  , 'archive_feed'),
 
 #    url(r'^oauth/login$', 'login_request'),
 #    url(r'^oauth/token$', 'get_sina_code'),

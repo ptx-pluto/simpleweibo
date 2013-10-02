@@ -2,9 +2,9 @@
 # -*- utf-8 -*-
 #=====================================================================================
 
-import json
 import os
 import math
+import json
 
 from whoosh.index import create_in
 from whoosh.fields import *
@@ -24,7 +24,6 @@ def get_follower(account):
     follower_list = []
     while (in_progress):
         result = account.call_api(conf.API_FOLLOWER, query)
-        print(result)
         for profile in result['users']:
             yield profile
         query['cursor'] = result['next_cursor']

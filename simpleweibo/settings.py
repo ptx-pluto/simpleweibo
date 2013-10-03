@@ -4,23 +4,21 @@
 # Set Path Variables
 #=================================================================
 
-import os
 import sys
+from os.path import dirname, join, abspath
 
-CURRENT_DIR  = os.path.dirname(__file__)
-sys.path.append(os.path.join(CURRENT_DIR, 'apps'))
-
-PROJECT_ROOT = CURRENT_DIR
+PROJECT_ROOT = dirname(dirname(abspath(__file__)))
+sys.path.append(join(PROJECT_ROOT, 'apps'))
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(CURRENT_DIR, 'media')
+MEDIA_ROOT = join(PROJECT_ROOT, 'media')
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(CURRENT_DIR, 'static')
+STATIC_ROOT = join(PROJECT_ROOT, 'static')
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -144,7 +142,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 
     'weibo',
-    'profile',
+    'account',
 )
 
 # A sample logging configuration. The only tangible logging

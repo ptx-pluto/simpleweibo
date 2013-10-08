@@ -5,33 +5,34 @@
     <title>Simple Weibo - {% block title %}{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="http://static.localhost/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="http://static.localhost/lib/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
+    <link href="/static/lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <link href="/static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/lib/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
 
-    <link href="http://static.localhost/simpleweibo/main.css" rel="stylesheet" media="screen">
+    <link href="/static/mysite/main.css" rel="stylesheet" media="screen">
   </head>
 
   <body>
-    <div class="container">
+    <div class="container-fluid">
 
-      <header calss="row">
+      <header calss="row-fluid">
 	<div class="span12">
 	  <nav class="navbar navbar-fixed-top">
 	    <div class="navbar-inner" style="padding-right:10px;padding-left:10px;">
 	      
-	      <a href="/weibo/index" class="brand">
+	      <a href="/feed/myfeed" class="brand">
 		<span>SimpleWeibo</span>
 	      </a>
 	      
 	      <ul class="nav">
 		<li {% block index_active %}{% endblock %}>
-		  <a href="/weibo/index"><i class="icon-home"></i> Index</a>
+		  <a href="/feed/myfeed"><i class="icon-home"></i> Index</a>
 		</li>
 		<li {% block home_active %}{% endblock %}>
-		  <a href="/weibo/home"><i class="icon-comment"></i> Home</a>
+		  <a href="/feed/myfeed"><i class="icon-comment"></i> Home</a>
 		</li>
 		<li {% block search_active %}{% endblock %}>
-		  <a href="/weibo/search"><i class="icon-info-sign"></i> Search</a>
+		  <a href="/feed/myfeed"><i class="icon-info-sign"></i> Timeline</a>
 		</li>
 		<li class="dropdown">
 		  <a href="#" calss="dropdown-toggle" data-toggle="dropdown">
@@ -58,7 +59,7 @@
 	</div>
       </header>
       
-      <div class="row" id="main-content">
+      <div class="row-fluid" id="main-content">
 	
 	{% block main_content %}{% endblock %}
 
@@ -66,12 +67,12 @@
 
     </div>
 
-    <script src="http://static.localhost/lib/jquery-1.10.2.js"></script>
-    <script src="http://static.localhost/lib/jquery-ui/js/jquery-ui-1.10.3.custom.js"></script>
-    <script src="http://static.localhost/lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="http://static.localhost/lib/jquery.wookmark.min.js"></script>
-    <script src="http://static.localhost/lib/jquery.flip.js"></script>
-    <script src="http://static.localhost/simpleweibo/main.js"></script>
+    <script src="/static/lib/jquery-1.10.2.js"></script>
+    <script src="/static/lib/jquery-ui/js/jquery-ui-1.10.3.custom.js"></script>
+    <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/lib/jquery.wookmark.min.js"></script>
+    <script src="/static/lib/jquery.flip.js"></script>
+    <script src="/static/mysite/main.js"></script>
 
   </body>
 </html>

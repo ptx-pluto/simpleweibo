@@ -1,0 +1,14 @@
+{% extends "base/feed-base.html" %}
+
+{% block myfeed_active %}
+class="active"
+{% endblock %}
+
+
+{% block feed_html %}
+
+{% for feed in feed_list %}
+  {% include "module/feed-tile.html" %}
+{% endfor %}
+
+{% endblock %}

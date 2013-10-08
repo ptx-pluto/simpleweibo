@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block home_active %}
+class="active"
+{% endblock %}
+
+{% block main_content %}
+
+<div class="span12" id="grid-container">
+  {% block feed_html %}Here should be some status{% endblock %}
+</div>
+
+{% endblock %}

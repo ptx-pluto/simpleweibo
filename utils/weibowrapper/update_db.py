@@ -30,12 +30,31 @@ def store_feed(feed):
     return Feed.objects.get_or_create(feed_id=str(feed['id']),
                                       defaults={'content': json.dumps(feed), 'source': source})
 
-def fetch_data(weibo_account):
+def fetch_myfeed(weibo_account):
+    for feed in get_all_myfeed(weibo_account):
+       try:
+           store_feed(feed)
+       except:
+           print(feed)
+
+def fetch_archive(weibo_account):
     for feed in get_all_archive(weibo_account):
        try:
            store_feed(feed)
        except:
            print(feed)
+
+def fetch_timeline(weibo_account):
+    for feed in get_all_timeline(weibo_account):
+       try:
+           store_feed(feed)
+       except:
+           print(feed)
+
+def update_all_user():
+    for binding in WeiboBinding.objects.all():
+        fetch_myfeed(binding.get_account())
+
 
 #=============================================================================================
 

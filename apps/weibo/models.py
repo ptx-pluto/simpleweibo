@@ -24,8 +24,8 @@ class Feed(models.Model):
     source = models.ForeignKey(Profile, related_name='timeline')
 
 class WeiboBinding(models.Model):
-    bind_user = models.OneToOneField(UserAccount)
-    bind_profile = models.OneToOneField(Profile)
+    bind_account = models.OneToOneField(UserAccount, related_name='binding')
+    bind_profile = models.OneToOneField(Profile, related_name='binding')
     token = models.TextField()
     following = models.ManyToManyField(Profile, related_name='follower',null=True)    
     archive = models.ManyToManyField(Feed, null=True)

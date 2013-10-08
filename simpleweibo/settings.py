@@ -8,7 +8,10 @@ import sys
 from os.path import dirname, join, abspath
 
 PROJECT_ROOT = dirname(dirname(abspath(__file__)))
-sys.path.append(join(PROJECT_ROOT, 'apps'))
+UTILS_ROOT = join(PROJECT_ROOT, 'utils')
+APPS_ROOT = join(PROJECT_ROOT, 'apps')
+sys.path.append(UTILS_ROOT)
+sys.path.append(APPS_ROOT)
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -123,10 +126,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'simpleweibo.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'simpleweibo.wsgi.application'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -142,6 +145,7 @@ INSTALLED_APPS = (
 
     'weibo',
     'account',
+    'mysite',
 )
 
 # A sample logging configuration. The only tangible logging

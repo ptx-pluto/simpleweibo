@@ -21,7 +21,7 @@ def register_view(request):
 
 @login_required()
 def myfeed_view(request):
-    feed_set = request.user.account.binding.bind_profile.timeline.all()[0:40]
+    feed_set = request.user.account.binding.bind_profile.timeline.all().order_by('create_time').reverse()[0:40]
     feeds = [json.loads(feed.content) for feed in feed_set]
     return render_to_response('root/feed/myfeed.html', {'feed_list': feeds})
 

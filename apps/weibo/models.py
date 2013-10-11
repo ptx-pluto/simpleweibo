@@ -21,6 +21,7 @@ class Profile(models.Model):
 class Feed(models.Model):
     feed_id = models.CharField(max_length=FEED_ID_LENGTH, primary_key=True)
     content = models.TextField()
+    create_time = models.DateTimeField()
     source = models.ForeignKey(Profile, related_name='timeline')
 
 class WeiboBinding(models.Model):

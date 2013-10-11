@@ -1,20 +1,23 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Register</title>
-    <meta charset="utf-8">
-  </head>
+{% extends 'base/base.html' %}
 
-  <body>
+{% block main_content %}
+
+<div class="span4">
+  <div class="well">
 
     <form method="POST" action="/api/account/register">
-      <input name="username" type="text" />
-      <input name="password" type="password" />
-      <input name="uid" type="text" />
-      <input name="token" type="password" />
-      <input type="submit" value="Submit"/>
+      <fieldset>
+	<legend>Register</legend>
+	<input name="username" type="text" placeholder="Username" class="input-block-level" />
+	<input name="password" type="password" placeholder="Password" class="input-block-level" />
+	<input name="uid" type="text" placeholder="Weibo UID" class="input-block-level" />
+	<input name="token" type="text" placeholder="Access Token" class="input-block-level" />
+	<input type="submit" value="Register" class="btn btn-primary btn-block"/>
+	<a href="/account/login" class="btn btn-info btn-block"/>Login</a>
+      </fieldset>
     </form>
 
-  </body>
+  </div>
+</div>
 
-</html>
+{% endblock %}

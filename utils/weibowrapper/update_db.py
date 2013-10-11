@@ -3,6 +3,7 @@
 
 import sys
 import os
+from datetime import datetime
 from os.path import dirname, abspath, join
 
 # Setup testing environment
@@ -23,37 +24,34 @@ from account.models import UserAccount
 #=============================================================================================
 
 def store_feed(feed):
+    # filter out invalid feeds
     if feed.get('deleted', '') == '1':
+        print('deleted feed found')
         return None
-    source, is_new = Profile.objects.get_or_create(uid=str(feed['user']['id']),  
-                                                   defaults={'content': json.dumps(feed['user'])})
-    return Feed.objects.get_or_create(feed_id=str(feed['id']),
-                                      defaults={'content': json.dumps(feed), 'source': source})
+        
+    uid = str(feed['user']['id'])
+    create_time = datetime.strptime(feed['created_at'], '%a %b %d %X %z %Y')
+    source, profile_is_new = Profile.objects.get_or_create(uid=uid, defaults={'content': json.dumps(feed['user'])})
+    feed, feed_is_new = Feed.objects.get_or_create(feed_id=str(feed['id']), defaults={'content': json.dumps(feed), 'source': source, 'create_time': create_time})
+    return feed
 
 def fetch_myfeed(weibo_account):
     for feed in get_all_myfeed(weibo_account):
-       try:
-           store_feed(feed)
-       except:
-           print(feed)
+        store_feed(feed)
 
 def fetch_archive(weibo_account):
     for feed in get_all_archive(weibo_account):
-       try:
-           store_feed(feed)
-       except:
-           print(feed)
+        store_feed(feed)
 
 def fetch_timeline(weibo_account):
     for feed in get_all_timeline(weibo_account):
-       try:
-           store_feed(feed)
-       except:
-           print(feed)
+        store_feed(feed)
 
-def update_all_user():
+def partial_update():
     for binding in WeiboBinding.objects.all():
-        fetch_myfeed(binding.get_account())
+        account = binding.get_account()
+        fetch_myfeed(account)
+        fetch_archive(account)
 
 
 #=============================================================================================

@@ -10,8 +10,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
-#    url(r'^api/weibo/', include('apps.weibo.urls')),
-    url(r'^api/account/', include('account.urls')),
-    url(r'', include('mysite.urls')),
+    url(r'^api/', include('apps.weibo.urls')),
+#    url(r'^api/account/', include('account.urls')),
+#    url(r'', include('mysite.urls')),
                        
 )

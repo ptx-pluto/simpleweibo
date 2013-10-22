@@ -40,6 +40,7 @@ PATH_ARCHIVE_JSON   = PATH_DATA + '/archive.json'
 
 API_BASE = 'https://api.weibo.com/2'
 
+API_SHOW      = '/users/show.json'
 API_FOLLOWER  = '/friendships/followers.json'
 API_FOLLOWING = '/friendships/friends.json'
 API_MYFEED    = '/statuses/user_timeline.json'

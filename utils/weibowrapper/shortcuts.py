@@ -18,6 +18,10 @@ from weibowrapper.sdk import WeiboAccount
 # get_all_x Shortcuts
 #=====================================================================================
 
+def get_my_profile(account):
+    return account.call_api(conf.API_SHOW)
+
+
 def get_follower(account):
     in_progress = True
     query = {'count': 200}

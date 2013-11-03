@@ -1,0 +1,18 @@
+templates:
+	feed-template
+	stream-template
+	
+	account-page
+
+Views
+	App.Views.Page
+		App.Views.WelcomePage -> #welcome-page
+		App.Views.StreamPage
+			App.Views.Stream -> #stream-template
+				App.Views.Feed -> #feed-template
+
+Execution
+
+1. initialize Account
+   if not authenticated, to welcome page to login or register
+2. App.init(), start hashtag navigation

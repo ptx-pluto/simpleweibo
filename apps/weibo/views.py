@@ -43,49 +43,39 @@ def following_list(request):
 
 @login_required
 @rest_api
-def home_stream(request):
-    user_account = request.user.account
+def stream_view(request, name='root'):
     if request.method == 'GET':
-        feed_set = user_account.binding.bind_profile.timeline.order_by('create_time').reverse()[0:40]
+        if name == 'home':
+            stream = request.user.account.binding.bind_profile.timeline
+        elif name == 'archive':
+            stream = request.user.account.binding.archive
+        elif name == 'profile':
+            stream = Profile.objects.get(uid=uid).timeline
+        else:
+            stream = request.user.account.binding.bind_profile.timeline
+
+        assert not ('head' in request.GET and 'tail' in request.GET)
+            
+        if 'head' in request.GET:
+            feed_set = timeline.filter(feed_id__gt=request.GET['head']).order_by('feed_id').reverse()
+        elif 'tail' in request.GET:
+            feed_set = timeline.filter(feed_id__lt=request.GET['tail']).order_by('feed_id').reverse()[0:40]
+        else:
+            feed_set = timeline.order_by('feed_id').reverse()[0:40]
+
         return [json.loads(feed.content) for feed in feed_set]
 
 
-@login_required
-@rest_api
-def root_stream(request):
-    user_account = request.user.account
-    if request.method == 'GET':
-        feed_set = user_account.binding.bind_profile.timeline.order_by('create_time').reverse()[0:40]
-        return [json.loads(feed.content) for feed in feed_set]
-
-
-@login_required
-@rest_api
-def archive_stream(request):
-    user_account = request.user.account
-    if request.method == 'GET':
-        feed_set = user_account.binding.bind_profile.timeline.order_by('create_time').reverse()[0:40]
-        return [json.loads(feed.content) for feed in feed_set]
-
-
-@login_required
-@rest_api
-def profile_stream(request):
-    if request.method == 'GET':
-        feed_set = Profile.objects.get(uid=profile).timeline.order_by('create_time').reverse()[0:40]
-        return [json.loads(feed.content) for feed in feed_set]
-
-
-@login_required
-@rest_api
-def stream_view(request, stream):
-    if request.method == 'GET':
-        pass
-    elif request.method == 'POST':
-        pass
-    elif request.method == 'PUT':
-        pass
-    elif request.method == 'PATCH':
-        pass
-    elif request.method == 'DELETE':
-        pass
+# @login_required
+# @rest_api
+# def stream_view(request, stream):
+#     if request.method == 'GET':
+#         pass
+#     elif request.method == 'POST':
+#         pass
+#     elif request.method == 'PUT':
+#         pass
+#     elif request.method == 'PATCH':
+#         pass
+#     elif request.method == 'DELETE':
+#         pass

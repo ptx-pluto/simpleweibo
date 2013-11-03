@@ -6,17 +6,17 @@ from account.models import UserAccount
 
 #==========================
 
-UID_LENGTH = 10
-FEED_ID_LENGTH = 16
+# UID_LENGTH = 10
+# FEED_ID_LENGTH = 16
 
 #==========================
 
 class Profile(models.Model):
-    uid = models.CharField(max_length=UID_LENGTH, primary_key=True)
+    uid = models.IntegerField(primary_key=True)
     content = models.TextField(null=True)
 
 class Feed(models.Model):
-    feed_id = models.CharField(max_length=FEED_ID_LENGTH, primary_key=True)
+    feed_id = models.IntegerField(primary_key=True)
     create_time = models.DateTimeField()
     source = models.ForeignKey(Profile, related_name='timeline')
     content = models.TextField()

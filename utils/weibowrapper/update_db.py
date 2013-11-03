@@ -23,12 +23,12 @@ from account.models import UserAccount
 
 #=============================================================================================
 
-def store_profile(profile):
+def store_profile(profile, over_write=False):
     p, is_new = Profile.objects.get_or_create(
-        uid = str(profile['id']),
+        uid = profile['id'],
         defaults = { 'content': json.dumps(profile) }
     )    
-    if not is_new:
+    if over_write and not is_new:
         p.content = json.dumps(profile)
     return p
 
@@ -41,7 +41,7 @@ def store_feed(feed):
     create_time = datetime.strptime(feed['created_at'], '%a %b %d %X %z %Y')
     source = store_profile(feed['user'])
     f, is_new = Feed.objects.get_or_create(
-        feed_id = str(feed['id']), 
+        feed_id = feed['id'],
         defaults = { 'content': json.dumps(feed), 'source': source, 'create_time': create_time }
     )
     return f
@@ -56,7 +56,8 @@ def fetch_archive(account, binding):
     binding.archive.clear()
     for feed in get_all_archive(account):
         archived = store_feed(feed)
-        binding.archive.add(archived)
+        if not archived is None:
+            binding.archive.add(archived)
 
 
 def fetch_following(account, binding):
@@ -68,9 +69,9 @@ def fetch_following(account, binding):
 
 def fetch_my_info(account, binding):
     fetch_myfeed(account)
-    fetch_following(account, bindind)
+    fetch_following(account, binding)
     fetch_archive(account, binding)
-    store_profile(get_my_profile(account))
+    store_profile(get_my_profile(account, {}), over_write=True)
 
 
 def fetch_timeline(account):

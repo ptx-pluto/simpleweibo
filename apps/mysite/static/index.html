@@ -28,13 +28,13 @@
 	      
 	      <ul class="nav">
 		<li>
-		  <a href="/feed/myfeed"><i class="icon-home"></i> Index</a>
+		  <a href="#stream/root"><i class="icon-home"></i> Index</a>
 		</li>
 		<li>
-		  <a href="/feed/myfeed"><i class="icon-comment"></i> Home</a>
+		  <a href="#stream/home"><i class="icon-comment"></i> Home</a>
 		</li>
 		<li>
-		  <a href="/feed/myfeed"><i class="icon-info-sign"></i> Timeline</a>
+		  <a href="#stream/root"><i class="icon-info-sign"></i> Timeline</a>
 		</li>
 		<li class="dropdown">
 		  <a href="#" calss="dropdown-toggle" data-toggle="dropdown">
@@ -59,20 +59,58 @@
 	    </div>
 	  </nav>
 
-
-
 	</div>
       </header>
-      
-      <div class="row-fluid" id="main-content">
-	<div class="span12" id="grid-container">
-
-	</div>
-      </div>
     
+      <div id="page"></div>
+
     </div>
 
+
+
     <!-- Templates used by Underscore.js -->
+
+
+
+    <script type="text/template" id="account-page">
+
+      <div class="row-fluid">
+	  <div class="hero-unit">
+	    <h1>SimpleWeibo</h1>
+	    <p>This is a simple Sina Weibo Web client</p>
+	    <p>
+	      <a href="#" class="btn btn-primary btn-large">Learn more</a>
+	    </p>
+	  </div>
+      </div>
+      
+      <div class="row-fluid">
+	<div class="well span4">
+	  <form action="/api/account/register" method="POST">
+	    <fieldset>
+	      <legend>Register</legend>
+	      <input type="text" name="username" placeholder="Username" class="input-block-level">
+	      <input type="password" name="password" placeholder="Password" class="input-block-level">
+	      <input type="text" name="uid" placeholder="User Id" class="input-block-level">
+	      <input type="text" name="token" placeholder="Access Token" class="input-block-level">
+	      <input type="submit" value="Register" class="btn btn-block btn-primary">
+	    </fieldset>
+	  </form>	      
+	</div>
+	<div class="well span4">
+	  <form action="/api/account/login" method="POST">
+	    <fieldset>
+	      <legend>Login</legend>
+	      <input type="text" name="username" placeholder="Username" class="input-block-level">
+	      <input type="password" name="password" placeholder="Password" class="input-block-level">
+	      <input type="submit" value="Login" class="btn btn-block btn-info">
+	    </fieldset>
+	  </form>
+	</div>
+      </div>
+      
+    </script>
+
 
     <script type="text/template" id="feed-template">
       <div class="feed-entry grid-tile">
@@ -87,9 +125,18 @@
       </div>
     </script>
 
-    <script type="text/template" id="profile-template"></script>
+
+    <script type="text/template" id="stream-template">
+      <div class="stream span12">
+	<div class="load-new">load new</div>
+	<div class="grid-container"></div>
+	<div class="load-old">load old</div>
+      </div>
+    </script>
+
 
     <!-- Import Bootstrap/jQuery/jQueryUI JavaScript -->
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>

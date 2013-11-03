@@ -5,8 +5,8 @@ urlpatterns = patterns(
     'weibo.views',
 
 #    url(r'^account/bind$' , 'bind_account'),
-    url(r'^stream/home$'   , 'home_stream'),
-    url(r'^stream/archive$', 'archive_stream'),
-    url(r'^stream/root$'   , 'timeline_stream'),
-    url(r'^stream/profile/(?P<profile>\d{10})$', 'profile_stream'),
+    url(r'^stream/home$'   , 'stream_view', { 'name': 'home' }),
+    url(r'^stream/archive$', 'stream_view', { 'name': 'archive' }),
+    url(r'^stream/root$'   , 'stream_view', { 'name': 'root' }),
+    url(r'^stream/profile/(?P<uid>\d+)$', 'stream_view', { 'name': 'profile' }),
 )

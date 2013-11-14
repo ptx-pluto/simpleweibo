@@ -20,7 +20,6 @@ window.App = {
 
 App.Models.Feed = Backbone.Model.extend({});
 
-
 App.Models.Stream = Backbone.Collection.extend({
     model: FeedModel,
     comparator: 'id',
@@ -51,17 +50,32 @@ App.Models.Stream = Backbone.Collection.extend({
 });
 
 App.Models.Account = Backbone.Model.extend({
-    initialize: function(){},
+    defaults: {
+	'login': false
+    },
+
+    initialize: function(){
+	this.fetch();
+    },
+
     fetch: function(){	
+	var self = this;
 	$.get('/api/account', function(data){
 	    if (data.login) {
-		init();
+		self.login = true;
+		App.init();
 	    }
-
+	    else {
+		App.auth();
+	    }
+	    
 	});
     },
+
     login: function(){},
+
     register: function(){}
+
 });
 
 
@@ -70,21 +84,28 @@ App.Models.Account = Backbone.Model.extend({
 
 App.Views.Page = Backbone.View.extend({
     initialize: function(){},
+
     render: function(){},
-    route: function(route){
-	if (route === 'home') {
-	    App.models.current_stream = new App.Models.Stream({ name: 'home' });
-	    App.views.current_stream = new App.Views.Stream({ collection: App.models.current_stream });
-	    this.$el.
-	}
-	else if (route === 'root') {
-	    App.models.current_stream = new App.Models.Stream({ name: 'root' });
-	    App.views.current_stream = new App.Views.Stream({ collection: App.models.current_stream });
-	}
-	else if (route === 'archive') {
-	    App.models.current_stream = new App.Models.Stream({ name: 'archive' });
-	    App.views.current_stream = new App.Views.Stream({ collection: App.models.current_stream });
-	}
+
+    // route: function(route){
+    // 	if (route === 'home') {
+    // 	    App.models.current_stream = new App.Models.Stream({ name: 'home' });
+    // 	    App.views.current_stream = new App.Views.Stream({ collection: App.models.current_stream });
+    // 	    this.$el.
+    // 	}
+    // 	else if (route === 'root') {
+    // 	    App.models.current_stream = new App.Models.Stream({ name: 'root' });
+    // 	    App.views.current_stream = new App.Views.Stream({ collection: App.models.current_stream });
+    // 	}
+    // 	else if (route === 'archive') {
+    // 	    App.models.current_stream = new App.Models.Stream({ name: 'archive' });
+    // 	    App.views.current_stream = new App.Views.Stream({ collection: App.models.current_stream });
+    // 	}
+    // },
+
+    welcome: function(){
+	this.current_page = new App.Views.WelcomePage;
+	this.$el.replaceWith(this.current_page.$el);
     }
 
 });
@@ -110,7 +131,7 @@ App.Views.LoginForm = Backbone.View.extend({
 	this.$el.submit(this.onSubmit);
     },
     onSubmit: function(event){
-	$.post('/api/account/login', this.$el.serialize(), this.onResp, 'json');	
+	$.post('/api/account', this.$el.serialize(), this.onResp, 'json');	
     },
     onResp: function(resp){
 	if (resp.login && resp.status) {
@@ -264,10 +285,14 @@ App.Workspace = Backbone.Router.extend({
 
 
 App.init = function(){
-    // run after login
     App.router = new App.Workspace;
     Backbone.history.start();
-}
+};
+
+
+App.auth = function(){
+    App.views.page.welcome();
+};
 
 
 // DOM ready

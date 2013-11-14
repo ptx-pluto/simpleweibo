@@ -19,6 +19,22 @@ def account_view(request):
         else:
             return { 'login': False, 'status': False }
 
+    elif request.method == 'POST': # login
+
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')        
+        user = auth.authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            auth.login(request, user)
+            return { 'login': True, 'status': True }
+        else:
+            return { 'login': False, 'status': False }
+
+    elif request.method == 'DELETE': # logout
+
+        auth.logout(request)
+        return { 'login': False, 'status': True }
+
     elif request.method == 'PATCH': # bind weibo account
 
         uid = request.POST.get('uid', '')
@@ -53,20 +69,3 @@ def register_view(request):
         return { 'login': True, 'status': True }
     else:
         return { 'login': False, 'status': False, 'error': 'username' }
-    
-
-def login_view(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')        
-    user = auth.authenticate(username=username, password=password)
-    if user is not None and user.is_active:
-        auth.login(request, user)
-        return HttpResponse('Login Success')
-    else:
-        return HttpResponse('Login Failed')
-
-
-def logout_view(request):
-    auth.logout(request)
-    return HttpResponse('Loged out')
-    

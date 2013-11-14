@@ -16,3 +16,11 @@ Execution
 1. initialize Account
    if not authenticated, to welcome page to login or register
 2. App.init(), start hashtag navigation
+
+
+urls
+/api/account -- GET(status) -- POST(login) -- DELETE(logout)
+/api/account/register -- POST
+
+/api/stream/:stream-name -- root,home,archive,timeline -- GET
+

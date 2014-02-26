@@ -1,0 +1,10 @@
+{
+  "name": "simpleweibo",
+  "version": "0.0.0",
+  "dependencies": {
+    "ember": "latest",
+    "handlebars": "latest",
+    "ember-data": "latest"
+  },
+  "devDependencies": {}
+}
